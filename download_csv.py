@@ -21,7 +21,7 @@ import re
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Configurações gerais
-URL = "https://192.168.1.191/Portal/Portal.mwsl?PriNav=DataLogs"
+URL = " "
 OUTPUT_FOLDER = "downloads_csv"
 AUTH = ('usuario', 'senha')
 MAX_RETRIES = 4

@@ -17,10 +17,9 @@ import urllib3
 import random
 import re
 
-# Desativar avisos de verificação de SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Configurações gerais
+
 URL = " "
 OUTPUT_FOLDER = "downloads_csv"
 AUTH = ('usuario', 'senha')
@@ -65,10 +64,7 @@ def create_http_session():
     return session
 
 def navigate_and_collect_csv_links(driver):
-    """
-    Navega até a URL especificada, ignora o aviso de SSL,
-    e coleta links de arquivos CSV simulando cliques.
-    """
+
     try:
         driver.get(URL)
         wait = WebDriverWait(driver, 2)
@@ -82,7 +78,7 @@ def navigate_and_collect_csv_links(driver):
         except Exception:
             logging.info("Nenhum aviso de SSL encontrado para ignorar.")
 
-        # Coletar links para arquivos CSV e seus títulos, com simulação de cliques
+
         csv_links = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//a[contains(@href, '.csv')]")))
         if not csv_links:
             logging.warning("Nenhum arquivo CSV encontrado na página.")
@@ -94,7 +90,6 @@ def navigate_and_collect_csv_links(driver):
                 link_text = link.text.strip()
                 link_url = link.get_attribute('href')
                 if link_url:
-                    # Simular clique no link para download
                     driver.execute_script("arguments[0].click();", link)
                     time.sleep(1)
                     csv_data.append({'url': link_url, 'title': link_text})
@@ -121,7 +116,6 @@ def is_valid_csv(content):
         return False
 
 def download_csv_file(csv_info):
-    """Baixa um arquivo CSV a partir de uma URL, mantendo o nome original."""
     url, title = csv_info['url'], csv_info['title']
     file_name = f"{title}"
     file_path = os.path.join(OUTPUT_FOLDER, file_name)
@@ -149,7 +143,6 @@ def download_csv_file(csv_info):
             time.sleep(random.uniform(1))
 
 def download_all_csvs():
-    """Função principal para realizar o download de todos os arquivos CSV disponíveis na página."""
     driver = initialize_driver()
     success_files, failed_files = [], []
     try:
@@ -164,7 +157,6 @@ def download_all_csvs():
                     else:
                         failed_files.append(result["file"])
 
-            # Log final dos arquivos baixados com sucesso e falhas
             logging.info(f"Arquivos baixados com sucesso: {len(success_files)}")
             for file in success_files:
                 logging.info(f"  - {file}")

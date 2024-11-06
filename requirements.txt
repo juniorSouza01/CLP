@@ -1,0 +1,7 @@
+requests
+urllib3
+selenium
+schedule
+joblib
+concurrent-log-handler
+firebase-admin
